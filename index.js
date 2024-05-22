@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 // Objeto para almacenar las estadísticas
 let stats = {
   totalVotes: 0,
-  totalScore: 0
+  totalScore: 0,
+  avgScore: 0
 };
 
 // Endpoint para recibir la puntuación
@@ -30,14 +31,15 @@ app.post('/send-score', (req, res) => {
 
   // Actualizar las estadísticas
   stats.totalVotes += 1;
-  stats.totalScore += (score + stats.totalScore) / stats.totalVotes;
+  stats.totalScore += score;
+  stats.avgScore = stats.totalScore / stats.totalVotes;
 
 
   // Devolver la respuesta con la media de puntuaciones y el número de votaciones totales
   res.json({
     dataReceived: req.body,
-    result: "Score added succesfully",
-    averageScore: stats.totalScore,
+    result: "Score added successfully",
+    averageScore: stats.avgScore,
     totalVotes: stats.totalVotes
   });
 });
